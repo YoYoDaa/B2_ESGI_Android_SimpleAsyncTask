@@ -4,13 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TEXT_STATE = "currentText";
 
+    private ProgressBar mProgressBar;
+
     private TextView mTextView;
+
+    private SimpleAsyncTask asyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +27,15 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState!=null) {
             mTextView.setText(savedInstanceState.getString(TEXT_STATE));
         }
+        mProgressBar = findViewById(R.id.progressBar);
+
     }
 
     public void startTask(View view) {
-        // Placer un message dans la vue texte
         mTextView.setText(R.string.napping);
-        // Démarre l'AsyncTask.
-        new SimpleAsyncTask(mTextView).execute();
+        new SimpleAsyncTask(mTextView, mProgressBar).execute();
+
+        asyncTask = new SimpleAsyncTask(mTextView, mProgressBar);
     }
 
     @Override
